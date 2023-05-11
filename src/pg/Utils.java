@@ -45,6 +45,7 @@ public class Utils {
 			System.out.println(e.getStackTrace());
 		}
 		
-		return result;
+		return result.split(Constants.DELIMITER)[2];
 	}
+	
 }

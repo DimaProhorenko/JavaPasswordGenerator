@@ -16,12 +16,12 @@ public class Generator {
 		
 	}
 	
-	public String generate() {
+	public String generate(Encryptor encryptor) {
 		passwordOptions = getPasswordOptions();
 		alphabet = new Alphabet(passwordOptions[0], passwordOptions[1], passwordOptions[2], passwordOptions[3]).getAlphabet();
 		getPasswordNameFromUser();
 		String password = generatePassword();
-		savePassword(password);
+		savePassword(encryptor.encrypt(password));
 		return password;
 	}
 	
@@ -29,12 +29,12 @@ public class Generator {
 		Utils.appendToFile(Constants.PASSWORD_FILE_LOCATION, passwordName, password);
 	}
 	
-	public String retrievePassword() {
-		return retrievePassword(passwordName);
+	public String retrievePassword(Encryptor encryptor) {
+		return retrievePassword(passwordName, encryptor);
 	}
 	
-	public String retrievePassword(String name) {
-		return Utils.retrieveFromFile(Constants.PASSWORD_FILE_LOCATION, name);
+	public String retrievePassword(String name, Encryptor encryptor) {
+		return encryptor.decrypt(Utils.retrieveFromFile(Constants.PASSWORD_FILE_LOCATION, name));
 	}
 	
 	public String getPasswordNameFromUser() {
